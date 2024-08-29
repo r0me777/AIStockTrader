@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Stock Data for {{ ticker }}</h2>
+    
+    <!-- Graph Section -->
+    <div id="graph">
+        <canvas id="stockChart"></canvas>
+    </div>
+    
+    <!-- Numerical Data Section -->
+    <div id="numerical-data">
+        <h3>Numerical Data</h3>
+        <ul>
+            {% for date, row in stock_data.iterrows() %}
+                <li>{{ date.date() }}: {{ row['Close'] }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    
+    <!-- AI Profit Section -->
+    <div id="ai-profit">
+        <h3>AI Profit Percentage: {{ ai_profit }}%</h3>
+    </div>
+    
+    <!-- Controls Section -->
+    <div id="controls">
+        <button onclick="changeStock('AAPL')">AAPL</button>
+        <button onclick="changeStock('GOOGL')">GOOGL</button>
+        <button onclick="changeStock('MSFT')">MSFT</button>
+    </div>
+{% endblock %}

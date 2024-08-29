@@ -1,0 +1,52 @@
+/* styles.css */
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 10px;
+    padding: 10px;
+    height: 100vh; /* Make sure the grid container takes up the full viewport height */
+    width: 100vw;  /* Make sure the grid container takes up the full viewport width */
+}
+
+.graph-box, .data-box, .ai-box, .controls-box {
+    border: 1px solid #ddd;
+    padding: 10px;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+    background-color: #fff; /* Background color for better contrast */
+    overflow: auto; /* Add scrollbars if content overflows */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Ensure that images fit within their box */
+.graph-box img {
+    max-width: 100%;
+    max-height: 100%;
+    display: block;
+}
+
+/* Ensure consistent styling for the body */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+/* Optional: Style buttons for better appearance */
+button {
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 5px 0;
+    font-size: 16px;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}

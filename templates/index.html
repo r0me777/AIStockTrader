@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Data</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="grid-container">
+        <div class="graph-box">
+            <img src="{{ graph_url }}" alt="Stock Graph">
+        </div>
+        <div class="data-box">
+            <!-- Numerical stock data will be here -->
+            <h2>Stock Data</h2>
+            <ul>
+                {% for key, value in stock_data.items() %}
+                    <li><strong>{{ key }}:</strong> {{ value }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="ai-box">
+            <h2>AI Prediction</h2>
+            <p>{{ prediction }}</p>
+        </div>
+        <div class="controls-box">
+            <!-- Buttons for switching stocks -->
+            <h2>Controls</h2>
+            <button onclick="location.href='/?ticker=AAPL'">AAPL</button>
+            <button onclick="location.href='/?ticker=GOOGL'">GOOGL</button>
+            <!-- Add more buttons as needed -->
+        </div>
+    </div>
+</body>
+</html>
+
