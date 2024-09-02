@@ -3,20 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stock Data</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Stock Data1</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
     <div class="grid-container">
         <div class="graph-box">
+            <h2>Graph</h2>
             <img src="{{ graph_url }}" alt="Stock Graph">
         </div>
         <div class="data-box">
-            <!-- Numerical stock data will be here -->
             <h2>Stock Data</h2>
             <ul>
-                {% for key, value in stock_data.items() %}
-                    <li><strong>{{ key }}:</strong> {{ value }}</li>
+                {% for key, value in stock_data.iterrows() %}
+                    <li><strong>{{ key.strftime('%Y-%m-%d') }}:</strong> {{ value['Close'] | round(2) }}</li>
                 {% endfor %}
             </ul>
         </div>
@@ -25,13 +25,10 @@
             <p>{{ prediction }}</p>
         </div>
         <div class="controls-box">
-            <!-- Buttons for switching stocks -->
             <h2>Controls</h2>
             <button onclick="location.href='/?ticker=AAPL'">AAPL</button>
             <button onclick="location.href='/?ticker=GOOGL'">GOOGL</button>
-            <!-- Add more buttons as needed -->
         </div>
     </div>
 </body>
 </html>
-

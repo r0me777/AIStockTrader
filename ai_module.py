@@ -3,7 +3,8 @@ from sklearn.preprocessing import MinMaxScaler
 import pandas as pd
 from data_fetcher import fetch_stock_data
 
-
+# I mainly learned all this from: "Neural Networks from scratch in Python"
+# Information comes in batches -> Write to save AI model to SQL database
 class SimpleNeuralNetwork:
     def __init__(self, input_size, hidden_size, output_size):
         # Initialize weights and biases
@@ -18,6 +19,7 @@ class SimpleNeuralNetwork:
     def sigmoid_derivative(self, x):
         return x * (1 - x)
 
+    # Forward prop -> Hardest part to learn
     def forward(self, X):
         # Forward pass
         self.hidden_layer_activation = np.dot(X, self.weights_input_hidden) + self.bias_hidden
@@ -25,7 +27,7 @@ class SimpleNeuralNetwork:
         self.output_layer_activation = np.dot(self.hidden_layer_output, self.weights_hidden_output) + self.bias_output
         output = self.sigmoid(self.output_layer_activation)
         return output
-
+    # Second hardest part to learn
     def backward(self, X, y, output, learning_rate):
         # Backward pass (gradient descent)
         output_error = y - output
