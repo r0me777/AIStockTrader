@@ -15,8 +15,13 @@ def calculate_ai_profit_percentage():
 
 @app.route('/')
 def index():
-    ticker = 'AAPL'
-    stock_data = fetch_stock_data(ticker)
+    # Default ticker and date range
+    ticker = request.args.get('ticker', 'AAPL')
+    startdate = request.args.get('startdate', '2023-01-01')
+    enddate = request.args.get('enddate', '2023-09-01')
+    interval = request.args.get('interval', '1d')
+
+    stock_data = fetch_stock_data(ticker, startdate, enddate, interval)
     nn, scaler = train_model(ticker)
     prediction = predict_future_prices(nn, scaler, stock_data.tail(5), ticker)
 
@@ -35,7 +40,10 @@ def index():
     return render_template('index.html',
                            prediction=prediction,
                            stock_data=stock_data,
-                           graph_url=f'data:image/png;base64,{graph_url}')
+                           graph_url=f'data:image/png;base64,{graph_url}',
+                           ticker=ticker,
+                           startdate=startdate,
+                           enddate=enddate)
 
 @app.route('/stock/<ticker>')
 def stock(ticker):
@@ -43,12 +51,11 @@ def stock(ticker):
     ai_profit = calculate_ai_profit_percentage()
     return render_template('stock.html', stock_data=stock_data, ai_profit=ai_profit, ticker=ticker)
 
-def fetch_stock_data(ticker):
+def fetch_stock_data(ticker, startdate, enddate, interval):
     stock = yf.Ticker(ticker)
-    hist = stock.history(period="1y")
+    hist = stock.history(start=startdate, end=enddate, interval=interval)
     return hist
 
 if __name__ == '__main__':
     app.run(debug=True)
-
 

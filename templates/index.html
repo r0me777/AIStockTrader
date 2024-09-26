@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stock Data1</title>
+    <title>Stock Data</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
@@ -26,8 +26,12 @@
         </div>
         <div class="controls-box">
             <h2>Controls</h2>
-            <button onclick="location.href='/?ticker=AAPL'">AAPL</button>
-            <button onclick="location.href='/?ticker=GOOGL'">GOOGL</button>
+            <form action="/" method="get">
+                <input type="text" name="ticker" placeholder="Ticker Symbol" value="{{ ticker }}" required>
+                <input type="date" name="startdate" value="{{ startdate }}" required>
+                <input type="date" name="enddate" value="{{ enddate }}" required>
+                <button type="submit">1d Data Interval</button>
+            </form>
         </div>
     </div>
 </body>

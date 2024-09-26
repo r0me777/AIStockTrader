@@ -174,6 +174,26 @@ class StockDataManager:
             print(f"Error downloading data: {e}")
             return pd.DataFrame()
 
+    def fetch_data_from_db(self, ticker, interval):
+        query = """
+            SELECT date, close FROM stock_data
+            JOIN tickers ON stock_data.ticker_id = tickers.ticker_id
+            JOIN intervals ON stock_data.interval_id = intervals.interval_id
+            WHERE tickers.ticker = :ticker AND intervals.interval_name = :interval
+            ORDER BY date;
+        """
+        try:
+            with self.engine.connect() as connection:
+                result = connection.execute(text(query), {'ticker': ticker, 'interval': interval})
+                data = result.fetchall()
+                df = pd.DataFrame(data, columns=['Date', 'Close'])
+                df['Date'] = pd.to_datetime(df['Date'])
+                df.set_index('Date', inplace=True)
+                return df
+        except Exception as e:
+            print(f"Error fetching data from database: {e}")
+            return pd.DataFrame()
+
 
 if __name__ == "__main__":
     # Example usage
@@ -192,8 +212,10 @@ if __name__ == "__main__":
     interval = '1d'
 
     data = manager.download_data(ticker, startdate, enddate, interval)
-    print(data)
-    print(data.columns)
+
     if not data.empty:
         manager.save_data_to_db(data, ticker, interval)
 
+    ticker = 'AAPL'
+    data = manager.download_data(ticker,startdate,enddate,interval)
+    manager.save_data_to_db(data,ticker,interval)
