@@ -154,7 +154,7 @@ class StockDataManager:
                             'close': row['Close']  # Close
                         })
                         connection.commit() # ALWAYS after execute method
-                        connection.close()
+                        #connection.close() # CLOSES Connection!!! ANYTHING AFTER CANNOT SAVE
                     print(f"Successfully saved data for {ticker} ({interval}) to MySQL.")
         except Exception as e:
             print(f"Error saving data to MySQL: {e}")
@@ -216,6 +216,45 @@ if __name__ == "__main__":
     if not data.empty:
         manager.save_data_to_db(data, ticker, interval)
 
-    ticker = 'AAPL'
-    data = manager.download_data(ticker,startdate,enddate,interval)
-    manager.save_data_to_db(data,ticker,interval)
+    #TODO: Check why other tickers besides Amazon won't work.
+        # - Fixed connection.close() caused the problem
+
+    ticker1 = 'AAPL'
+    startdate1 = '2023-01-01'
+    enddate1 = '2023-09-01'
+    interval1 = '1d'
+
+    data1 = manager.download_data(ticker1,startdate1,enddate1,interval1)
+    if not data.empty:
+        manager.save_data_to_db(data1,ticker1,interval1)
+
+    #TODO: Make sure retrevial works for all tickers and make interval range for method
+
+    """
+    
+   
+    def test_data_retrieval():
+        db_config = {
+            'host': 'localhost',
+            'user': 'root',
+            'password': '1626st0cks!',  # Replace with your actual password
+            'database': 'testcase'
+        }
+
+        manager = StockDataManager(db_config)
+
+        # Attempt to fetch data for a specific ticker and interval
+        ticker = 'AMZN'
+        interval = '1d'
+        stock_data = manager.fetch_data_from_db(ticker, interval)
+
+        if not stock_data.empty:
+            print("Fetched stock data:")
+            print(stock_data)
+        else:
+            print("No data found or an error occurred.")
+
+
+    test_data_retrieval()
+    
+    """
