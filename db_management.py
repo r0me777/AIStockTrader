@@ -6,7 +6,13 @@ from datetime import datetime, timedelta
 import os
 
 class StockDataManager:
+
     def __init__(self, db_config):
+        """
+        :param db_config:
+        StockDataManager object allows retrevail, downloading of stock
+        data and manages the schema of SQL database.
+        """
         self.db_config = db_config
         self.engine = self.connect_to_mysql()
 
@@ -174,17 +180,31 @@ class StockDataManager:
             print(f"Error downloading data: {e}")
             return pd.DataFrame()
 
-    def fetch_data_from_db(self, ticker, interval):
+    def fetch_data_from_db(self, ticker, interval, start_time=None, end_time=None):
         query = """
             SELECT date, close FROM stock_data
             JOIN tickers ON stock_data.ticker_id = tickers.ticker_id
             JOIN intervals ON stock_data.interval_id = intervals.interval_id
             WHERE tickers.ticker = :ticker AND intervals.interval_name = :interval
-            ORDER BY date;
         """
+
+        # Add conditions for start_time and end_time if provided
+        if start_time:
+            query += " AND date >= :start_time"
+        if end_time:
+            query += " AND date <= :end_time"
+
+        query += " ORDER BY date;"
+
         try:
             with self.engine.connect() as connection:
-                result = connection.execute(text(query), {'ticker': ticker, 'interval': interval})
+                params = {'ticker': ticker, 'interval': interval}
+                if start_time:
+                    params['start_time'] = start_time
+                if end_time:
+                    params['end_time'] = end_time
+
+                result = connection.execute(text(query), params)
                 data = result.fetchall()
                 df = pd.DataFrame(data, columns=['Date', 'Close'])
                 df['Date'] = pd.to_datetime(df['Date'])
@@ -229,10 +249,9 @@ if __name__ == "__main__":
         manager.save_data_to_db(data1,ticker1,interval1)
 
     #TODO: Make sure retrevial works for all tickers and make interval range for method
+        # Fixed for works for all tickers still need to focus on interval range
+        # Fixed for data range
 
-    """
-    
-   
     def test_data_retrieval():
         db_config = {
             'host': 'localhost',
@@ -246,15 +265,12 @@ if __name__ == "__main__":
         # Attempt to fetch data for a specific ticker and interval
         ticker = 'AMZN'
         interval = '1d'
-        stock_data = manager.fetch_data_from_db(ticker, interval)
+        start_time = '2023-01-01'
+        end_time = '2023-01-31'
+        stock_data = manager.fetch_data_from_db(ticker, interval, start_time, end_time)
+        print(stock_data)
 
-        if not stock_data.empty:
-            print("Fetched stock data:")
-            print(stock_data)
-        else:
-            print("No data found or an error occurred.")
 
 
     test_data_retrieval()
     
-    """

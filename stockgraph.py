@@ -1,11 +1,13 @@
-import numpy as np
+from db_management import StockDataManager
+from ai_module import train_model, predict_future_prices
 import matplotlib.pyplot as plt
 import pandas as pd
-from sqlalchemy import create_engine, text
-from ai_module import SimpleNeuralNetwork, prepare_data, fetch_stock_data
-from db_management import *
+import numpy as np
 
-def plot_stock_data_and_predictions(ticker, interval):
+#Example of what AI would look like predicting stock values
+
+def test_data_retrieval_and_prediction():
+    # Database configuration
     db_config = {
         'host': 'localhost',
         'user': 'root',
@@ -13,46 +15,47 @@ def plot_stock_data_and_predictions(ticker, interval):
         'database': 'testcase'
     }
 
+    # Initialize StockDataManager
     manager = StockDataManager(db_config)
 
-    # Fetch actual stock data
+    # Define ticker and interval
+    ticker = 'AMZN'
+    interval = '1d'
+
+    # Fetch stock data from the database
     stock_data = manager.fetch_data_from_db(ticker, interval)
 
-    # Check if stock_data is empty
     if stock_data.empty:
-        print("No stock data found.")
+        print(f"No data available for {ticker}. Exiting.")
         return
 
-    # Prepare the data for training
-    X, y, scaler = prepare_data(stock_data[['Close']].values)
+    # Train the neural network model
+    nn, scaler = train_model(ticker, manager)
 
-    # Debugging: Check the shape of X and y
-    print(f"X shape: {X.shape}, y shape: {y.shape}")
+    # Predict future prices if the model was successfully trained
+    if nn and scaler:
+        predicted_prices = predict_future_prices(nn, scaler, manager, ticker)
 
-    # Ensure y is not empty
-    if y.size == 0 or len(y.shape) < 2:
-        print("Invalid shape for y, cannot proceed.")
-        return
+        if predicted_prices is not None:
+            # Combine the predicted prices with actual stock data
+            prediction_dates = pd.date_range(stock_data.index[-1] + pd.Timedelta(days=1), periods=len(predicted_prices))
+            predicted_df = pd.DataFrame(predicted_prices, index=prediction_dates, columns=['Predicted Close'])
 
-    # Initialize and train the neural network
-    nn = SimpleNeuralNetwork(input_size=X.shape[1], hidden_size=5, output_size=y.shape[1])
-    nn.train(X, y, epochs=1000, learning_rate=0.1)
-
-    # Make predictions
-    predictions = nn.predict(X)
-    predictions = scaler.inverse_transform(predictions)  # Denormalize predictions
-
-    # Plot the results
-    plt.figure(figsize=(12, 6))
-    plt.plot(stock_data.index, stock_data['Close'], label='Actual Close Prices', color='blue')
-    plt.plot(stock_data.index[1:], predictions, label='Predicted Close Prices', color='orange', linestyle='dashed')
-    plt.title(f'Stock Price Prediction for {ticker} - {interval}')
-    plt.xlabel('Date')
-    plt.ylabel('Price')
-    plt.legend()
-    plt.grid()
-    plt.show()
+            # Plotting actual vs predicted prices
+            plt.figure(figsize=(10, 6))
+            plt.plot(stock_data.index, stock_data['Close'], label="Actual Close Prices", color="blue")
+            plt.plot(predicted_df.index, predicted_df['Predicted Close'], label="Predicted Close Prices",
+                     color="orange")
+            plt.xlabel("Date")
+            plt.ylabel("Close Price")
+            plt.title(f"{ticker} Stock Price Prediction")
+            plt.legend()
+            plt.show()
+        else:
+            print("Prediction failed.")
+    else:
+        print("Model training failed.")
 
 
 if __name__ == "__main__":
-    plot_stock_data_and_predictions('AAPL', '1d')
+    test_data_retrieval_and_prediction()
