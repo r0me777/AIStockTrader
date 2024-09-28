@@ -14,11 +14,15 @@
         </div>
         <div class="data-box">
             <h2>Stock Data</h2>
-            <ul>
-                {% for key, value in stock_data.iterrows() %}
-                    <li><strong>{{ key.strftime('%Y-%m-%d') }}:</strong> {{ value['Close'] | round(2) }}</li>
-                {% endfor %}
-            </ul>
+            {% if error %}
+                <div class="error">{{ error }}</div>
+            {% else %}
+                <ul>
+                    {% for key, value in stock_data.iterrows() %}
+                        <li><strong>{{ key.strftime('%Y-%m-%d') }}:</strong> {{ value['Close'] | round(2) }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
         </div>
         <div class="ai-box">
             <h2>AI Prediction</h2>

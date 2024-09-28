@@ -3,7 +3,7 @@ import yfinance as yf
 import pandas as pd
 from sqlalchemy import create_engine, text
 from datetime import datetime, timedelta
-import os
+import os #?
 
 class StockDataManager:
 
@@ -273,4 +273,4 @@ if __name__ == "__main__":
 
 
     test_data_retrieval()
-    
+
