@@ -17,11 +17,22 @@
             {% if error %}
                 <div class="error">{{ error }}</div>
             {% else %}
-                <ul>
-                    {% for key, value in stock_data.iterrows() %}
-                        <li><strong>{{ key.strftime('%Y-%m-%d') }}:</strong> {{ value['Close'] | round(2) }}</li>
-                    {% endfor %}
-                </ul>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Close Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for key, value in stock_data.iterrows() %}
+                            <tr>
+                                <td>{{ key.strftime('%Y-%m-%d') }}</td>
+                                <td>{{ value['Close'] | round(2) }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             {% endif %}
         </div>
         <div class="ai-box">
