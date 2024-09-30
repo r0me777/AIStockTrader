@@ -45,7 +45,32 @@
                 <input type="text" name="ticker" placeholder="Ticker Symbol" value="{{ ticker }}" required>
                 <input type="date" name="startdate" value="{{ startdate }}" required>
                 <input type="date" name="enddate" value="{{ enddate }}" required>
-                <button type="submit">1d Data Interval</button>
+                <!-- <input type="text" name="interval"
+                       placeholder="Intervals 1m, 2m, 5m, 15m, 30m, 60m, 90m, 1h, 1d, 5d, 1wk, 1mo, 3mo"
+                       value ="{{ interval }}" required>
+                 -->
+                <label for="interval">Choose an interval:</label>
+                <select name="interval" id="interval" required>
+                    <option value="1m" {% if interval == '1m' %} selected {% endif %}>1 minute</option>
+                    <option value="2m" {% if interval == '2m' %}selected{% endif %}>2 minutes</option>
+                    <option value="5m" {% if interval == '5m' %}selected{% endif %}>5 minutes</option>
+                    <option value="15m" {% if interval == '15m' %}selected{% endif %}>15 minutes</option>
+                    <option value="30m" {% if interval == '30m' %}selected{% endif %}>30 minutes</option>
+                    <option value="60m" {% if interval == '60m' %}selected{% endif %}>1 hour (60m)</option>
+                    <option value="90m" {% if interval == '90m' %}selected{% endif %}>1.5 hours (90m)</option>
+                    <option value="1h" {% if interval == '1h' %}selected{% endif %}>1 hour</option>
+                    <option value="1d" {% if interval == '1d' %}selected{% endif %}>1 day</option>
+                    <option value="5d" {% if interval == '5d' %}selected{% endif %}>5 days</option>
+                    <option value="1wk" {% if interval == '1wk' %}selected{% endif %}>1 week</option>
+                    <option value="1mo" {% if interval == '1mo' %}selected{% endif %}>1 month</option>
+                    <option value="3mo" {% if interval == '3mo' %}selected{% endif %}>3 months</option>
+                </select>
+
+                <button type="submit">Run</button>
+                <!--
+                <button type="submit" name="interval" value="{{ interval }}">1d Data Interval</button>
+                <button type="submit" name="interval" value="{{ interval }}">1w Data Interval</button>
+                -->
             </form>
         </div>
     </div>
