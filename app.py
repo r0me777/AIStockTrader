@@ -30,9 +30,7 @@ Python (Flask) Approach:
 JavaScript Approach:
     Using chart.js or plotly.js and HTML & CSS
     Jsonfiy data and have javascript get data using flask api
-    --- Probably better soultion ---
-     --> NEEDS TO BE IN THE RIGHT AREA -> ? MAYBE LEARN JAVASCRIPT FIRST 
-     --> The things is we used flask right? Do maybe python to feed into javascript | ( html and css) area
+    --- Probably better soultion --- 
      --> This requires jsonifying data into javascript usuable formats. 
      --
 """
