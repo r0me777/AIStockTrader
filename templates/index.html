@@ -13,7 +13,9 @@
             <img src="{{ graph_url }}" alt="Stock Graph">
         </div>
         <div class="data-box">
-            <h2>Stock Data</h2>
+            <div>
+                <h2>Stock Data</h2>
+            </div>
             {% if error %}
                 <div class="error">{{ error }}</div>
             {% else %}
@@ -40,7 +42,9 @@
             <p>{{ prediction }}</p>
         </div>
         <div class="controls-box">
-            <h2>Controls</h2>
+            <div>
+                <h2>Controls</h2>
+            </div>
             <form action="/" method="get">
                 <input type="text" name="ticker" placeholder="Ticker Symbol" value="{{ ticker }}" required>
                 <input type="date" name="startdate" value="{{ startdate }}" required>
@@ -51,6 +55,7 @@
                  -->
                 <label for="interval">Choose an interval:</label>
                 <select name="interval" id="interval" required>
+                    <!--
                     <option value="1m" {% if interval == '1m' %} selected {% endif %}>1 minute</option>
                     <option value="2m" {% if interval == '2m' %}selected{% endif %}>2 minutes</option>
                     <option value="5m" {% if interval == '5m' %}selected{% endif %}>5 minutes</option>
@@ -59,6 +64,8 @@
                     <option value="60m" {% if interval == '60m' %}selected{% endif %}>1 hour (60m)</option>
                     <option value="90m" {% if interval == '90m' %}selected{% endif %}>1.5 hours (90m)</option>
                     <option value="1h" {% if interval == '1h' %}selected{% endif %}>1 hour</option>
+                    All ops above are only availabe for 30 days old I need to code expects for this but not right now
+                    -->
                     <option value="1d" {% if interval == '1d' %}selected{% endif %}>1 day</option>
                     <option value="5d" {% if interval == '5d' %}selected{% endif %}>5 days</option>
                     <option value="1wk" {% if interval == '1wk' %}selected{% endif %}>1 week</option>

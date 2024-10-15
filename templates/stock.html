@@ -13,7 +13,7 @@
         <h3>Numerical Data</h3>
         <ul>
             {% for date, row in stock_data.iterrows() %}
-                <li>{{ date.date() }}: {{ row['Close'] }}</li>
+                <li>{{ date.date() }}: {{ row['Close'] row['Open'] row['High'] row['Low'] }}</li>
             {% endfor %}
         </ul>
     </div>
