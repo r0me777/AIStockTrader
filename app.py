@@ -31,7 +31,10 @@ JavaScript Approach:
     Using chart.js or plotly.js and HTML & CSS
     Jsonfiy data and have javascript get data using flask api
     --- Probably better soultion ---
-
+     --> NEEDS TO BE IN THE RIGHT AREA -> ? MAYBE LEARN JAVASCRIPT FIRST 
+     --> The things is we used flask right? Do maybe python to feed into javascript | ( html and css) area
+     --> This requires jsonifying data into javascript usuable formats. 
+     --
 """
 
 @app.route("/", methods=["GET"])
@@ -40,7 +43,9 @@ def index():
     ticker = request.args.get("ticker", "AMZN")
     startdate = request.args.get("startdate", "2023-01-01")
     enddate = request.args.get("enddate", "2023-09-01")
-    interval = '1d'  # Default interval is '1d'
+    print(enddate)
+    interval = request.args.get("interval", '1d') #'1d'   #'1d'  # Default interval is '1d'
+    print(interval)
 
     # Fetch stock data from the database
     stock_data = stock_data_manager.fetch_data_from_db(ticker, interval, startdate, enddate)

@@ -1,68 +1,73 @@
 .grid-container {
     display: grid;
-    grid-template-columns: 1fr 1fr;  /* Two equal columns */
-    grid-template-rows: 1fr 1fr;     /* Two equal rows */
+    grid-template-columns: 1fr 1fr; /* Two equal columns */
+    grid-template-rows: 1fr 1fr; /* Two equal rows */
     gap: 10px;
     padding: 10px;
-    height: 100vh;  /* Full viewport height */
-    width: 100vw;   /* Full viewport width */
+    height: 100vh; /* Full viewport height */
+    width: 100vw; /* Full viewport width */
     grid-template-areas:
         "graph data"
         "ai controls";
 }
 
-.graph-box {
-    grid-area: graph;
-    overflow: hidden; /* Hide overflow initially */
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-}
-
-.graph-box img {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain; /* Ensure the graph fits within the box */
-}
-
-.data-box {
-    grid-area: data;
-    overflow-y: auto; /* Enable vertical scrolling */
-    height: 100%;     /* Ensure it fills the grid cell */
-}
-
-.ai-box {
-    grid-area: ai;
-    overflow-y: auto; /* Enable vertical scrolling */
-    height: 100%;     /* Ensure it fills the grid cell */
-}
-
-.controls-box {
-    grid-area: controls;
-    overflow-y: auto; /* Enable vertical scrolling */
-    height: 100%;     /* Ensure it fills the grid cell */
-}
-
+/* Ensure responsiveness by allowing the boxes to adjust in size */
 .graph-box, .data-box, .ai-box, .controls-box {
     border: 1px solid #007bff;
     padding: 10px;
-    box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
     background-color: #fff;
-    min-height: 0;
-    min-width: 0;
     height: 100%;
     width: 100%;
+    overflow-y: auto;
 }
 
-/* Ensure consistent styling for the body */
+/* Make the graph scale properly */
+.graph-box img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+/* Make the layout more flexible for smaller screens */
+@media (max-width: 768px) {
+    .grid-container {
+        grid-template-columns: 1fr; /* Single column for smaller screens */
+        grid-template-rows: auto; /* Allow rows to expand */
+        grid-template-areas:
+            "graph"
+            "data"
+            "ai"
+            "controls";
+    }
+}
+
+/* Extra small screens (like mobile) */
+@media (max-width: 480px) {
+    .grid-container {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        grid-template-areas:
+            "graph"
+            "data"
+            "ai"
+            "controls";
+    }
+
+    .graph-box, .data-box, .ai-box, .controls-box {
+        padding: 5px;
+        box-shadow: none;
+    }
+}
+
 body {
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
 }
 
+/* Buttons and form elements */
 button {
-    display: inline-block;
     padding: 10px 20px;
     margin: 5px 0;
     font-size: 16px;
@@ -71,6 +76,7 @@ button {
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    width: 100%; /* Make buttons responsive */
 }
 
 button:hover {
@@ -90,4 +96,13 @@ th, td {
 
 th {
     background-color: #f2f2f2;
+}
+
+/* Make table scroll horizontally on small screens */
+@media (max-width: 768px) {
+    .data-box table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
 }
