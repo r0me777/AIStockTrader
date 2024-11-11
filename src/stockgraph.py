@@ -1,9 +1,9 @@
-from db_management import StockDataManager
-from ai_module import train_model, predict_future_prices
+from AIStockTrader.src.db_management import StockDataManager
+from AIStockTrader.src.ai_module import train_model, predict_future_prices
 import matplotlib.pyplot as plt
 import pandas as pd
-import numpy as np
 
+#Make test cases
 #Example of what AI would look like predicting stock values
 
 def test_data_retrieval_and_prediction():

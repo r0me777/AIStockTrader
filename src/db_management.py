@@ -49,7 +49,6 @@ class StockDataManager:
             print(f"Error creating main tables: {e}")
 
     # Get or create ticker in tickers table
-    # Get or create ticker in tickers table
     def get_or_create_ticker(self, ticker):
         query = "SELECT `ticker_id` FROM `tickers` WHERE `ticker` = :ticker;"
         insert_query = "INSERT INTO `tickers` (`ticker`) VALUES (:ticker);"

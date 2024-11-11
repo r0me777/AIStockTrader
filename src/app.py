@@ -27,13 +27,14 @@ Python (Flask) Approach:
         - Renders a template (FLASK ONLY)
         --- Wayyy easier solution ---
 
-JavaScript Approach:
+JavaScript Approach: -> Better 
     Using chart.js or plotly.js and HTML & CSS
     Jsonfiy data and have javascript get data using flask api
     --- Probably better soultion --- 
-     --> This requires jsonifying data into javascript usuable formats. 
+     --> This requires jsonifying data into javascript usuable formats.  
      --
 """
+
 
 @app.route("/", methods=["GET"])
 def index():
@@ -42,7 +43,7 @@ def index():
     startdate = request.args.get("startdate", "2023-01-01")
     enddate = request.args.get("enddate", "2023-09-01")
     print(enddate)
-    interval = request.args.get("interval", '1d') #'1d'   #'1d'  # Default interval is '1d'
+    interval = request.args.get("interval", '1d') #'1d'  # Default interval is '1d'
     print(interval)
 
     # Fetch stock data from the database
@@ -69,6 +70,7 @@ def index():
         prediction = predicted_prices.flatten().tolist() if predicted_prices is not None else None
 
     # Generate the graph as a PNG image
+    # TODO: Make this it it's own object honestly.
     img = io.BytesIO()
     plt.figure(figsize=(10, 5))
     plt.plot(stock_data.index, stock_data['Close'], label='Close Price')

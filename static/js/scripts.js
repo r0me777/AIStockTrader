@@ -10,7 +10,7 @@ document.getElementById('fetchDataBtn').addEventListener('click', async function
     updateTable(data);
 });
 
-// Update Chart.js with new stock data
+// Update Chart.js with new stock data | note done
 function updateChart(data) {
     const ctx = document.getElementById('stockChart').getContext('2d');
 
