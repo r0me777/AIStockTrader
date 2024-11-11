@@ -50,7 +50,7 @@ Web application that displays real-time stock data and AI (Python Built Neural N
 
 ```plaintext
 AIStockTrader/
-├── app/                # Application code
+├── |                
 │   ├── templates/      # HTML templates
 │   ├── static/         # Static files (CSS, JS)
 │   ├── src/            # Program files
