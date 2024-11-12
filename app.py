@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import io
 import base64
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder="src/templates")
 
 # Database configuration
 db_config = {
