@@ -29,14 +29,28 @@ Web application that displays real-time stock data and AI (Python Built Neural N
    ```bash
    pip install -r requirements.txt
    ```
+## Configuration
 
-4. **Set Up MySQL Database**:
+1. **Fill in `config.py` file with your MySQL database connection settings. Use the following template:**
+
+   ```python
+   # config.py
+   class Config:
+       DB_HOST = "localhost"          # Database host
+       DB_USER = "your_username"      # Your database username
+       DB_PASSWORD = "your_password"  # Your database password
+       DB_NAME = "your_database_name" # Your database name
+       TESTING = False
+       DEBUG = True
+   ```
+
+2. **Set Up MySQL Database**:
    - Create a MySQL database to store stock data.
    - Update the database connection information in the application’s configuration file (e.g., `config.py`).
 
-5. **Run the Application**:
+3. **Run the Application**:
    ```bash
-   flask run
+   python app.py 
    ```
    Access the application at `http://127.0.0.1:5000`.
 
@@ -53,7 +67,7 @@ AIStockTrader/
 ├── |                
 │   ├── templates/      # HTML templates
 │   ├── static/         # Static files (CSS, JS)
-│   ├── src/            # Program files
+│   ├── app.py          # Program File 
 │   
 │   
 ├── requirements.txt    # Project dependencies
@@ -89,3 +103,4 @@ AIStockTrader/
 This project is licensed under the MIT License.
 
 ---
+

@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import patch, Mock
-from AIStockTrader.db_management import StockDataManager
+from db_management import StockDataManager
 
 
 class TestStockDataManager(unittest.TestCase):

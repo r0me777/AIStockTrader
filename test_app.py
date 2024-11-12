@@ -1,17 +1,15 @@
-import unittest
 from AIStockTrader import app
+from unittest import TestCase
 from unittest.mock import patch
-from AIStockTrader import db_management
+from config import TestConfig
 import json
 
-
-class TestApp(unittest.TestCase):
+class TestApp(TestCase):
 
     @classmethod
     def setUpClass(cls):
-        app.config['TESTING'] = True
+        app.config.from_object(TestConfig)  # Use TestConfig for testing
         cls.client = app.test_client()
-
     @patch('app.stock_data_manager')
     def test_index_route_with_valid_data(self, mock_manager):
         mock_manager.fetch_data_from_db.return_value = Mock()

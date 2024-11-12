@@ -1,18 +1,24 @@
 from flask import Flask, render_template, request
 from db_management import StockDataManager
-from ai_module import train_model, predict_future_prices
+from AIStockTrader.ai_module import train_model, predict_future_prices
+from config import Config
 import matplotlib.pyplot as plt
 import io
 import base64
 
-app = Flask(__name__, template_folder="src/templates")
+# TODO: Save NN model in mySQL database instead of reloading each time
+# TODO: Add more details on expections in db_management: try out logging??
+#
+
+app = Flask(__name__)
+app.config.from_object(Config)
 
 # Database configuration
 db_config = {
-    'host': 'localhost',
-    'user': 'root',
-    'password': '1626st0cks!',
-    'database': 'testcase'
+    'host': Config.DB_HOST,
+    'user': Config.DB_USER,
+    'password': Config.DB_PASSWORD,
+    'database': Config.DB_NAME
 }
 
 # Initialize StockDataManager
@@ -70,7 +76,7 @@ def index():
         prediction = predicted_prices.flatten().tolist() if predicted_prices is not None else None
 
     # Generate the graph as a PNG image
-    # TODO: Make this it it's own object honestly.
+    # TODO: Replace with Chart.js
     img = io.BytesIO()
     plt.figure(figsize=(10, 5))
     plt.plot(stock_data.index, stock_data['Close'], label='Close Price')

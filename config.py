@@ -1,9 +1,9 @@
 class Config:
     # Fill in these values with your own database settings
     DB_HOST = "localhost"
-    DB_USER = "your_username"
-    DB_PASSWORD = "your_password"
-    DB_NAME = "your_database_name"
+    DB_USER = "root"
+    DB_PASSWORD = "1626st0cks!"
+    DB_NAME = "testcase"
     TESTING = False
     DEBUG = True
 
