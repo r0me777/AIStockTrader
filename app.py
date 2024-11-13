@@ -36,9 +36,9 @@ Python (Flask) Approach:
 JavaScript Approach: -> Better 
     Using chart.js or plotly.js and HTML & CSS
     Jsonfiy data and have javascript get data using flask api
-    --- Probably better soultion --- 
+    --- Probably better soultion --- Is better
      --> This requires jsonifying data into javascript usuable formats.  
-     --
+     --> and using routes to call mostly the database managers 
 """
 
 
