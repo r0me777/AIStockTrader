@@ -5,12 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stock Data</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
 </head>
 <body>
     <div class="grid-container">
         <div class="graph-box">
             <h2>Graph</h2>
             <img src="{{ graph_url }}" alt="Stock Graph">
+            <canvas id="stockChart"></canvas> <!--- Coming in soon -->
         </div>
         <div class="data-box">
             <div>
@@ -46,9 +48,9 @@
                 <h2>Controls</h2>
             </div>
             <form action="/" method="get">
-                <input type="text" name="ticker" placeholder="Ticker Symbol" value="{{ ticker }}" required>
-                <input type="date" name="startdate" value="{{ startdate }}" required>
-                <input type="date" name="enddate" value="{{ enddate }}" required>
+                <input type="text" id="ticker" name="ticker" placeholder="Ticker Symbol" value="{{ ticker }}" required>
+                <input type="date" id="startdate" name="startdate" value="{{ startdate }}" required>
+                <input type="date" id="enddate" name="enddate" value="{{ enddate }}" required>
                 <!-- <input type="text" name="interval"
                        placeholder="Intervals 1m, 2m, 5m, 15m, 30m, 60m, 90m, 1h, 1d, 5d, 1wk, 1mo, 3mo"
                        value ="{{ interval }}" required>
@@ -73,7 +75,7 @@
                     <option value="3mo" {% if interval == '3mo' %}selected{% endif %}>3 months</option>
                 </select>
 
-                <button type="submit">Run</button>
+                <button type="submit" id="fetchDataBtn">Run</button>
                 <!--
                 <button type="submit" name="interval" value="{{ interval }}">1d Data Interval</button>
                 <button type="submit" name="interval" value="{{ interval }}">1w Data Interval</button>

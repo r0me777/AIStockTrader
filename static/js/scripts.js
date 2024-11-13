@@ -1,9 +1,13 @@
 document.getElementById('fetchDataBtn').addEventListener('click', async function () {
     const ticker = document.getElementById('ticker').value;
     const interval = document.getElementById('interval').value;
+    const startdate = document.getElementById('startdate').value; //needs start date
+    const enddate = document.getElementById('startdate').value;
 
     // Fetch data from Flask (Assuming endpoint: '/fetch_data')
-    const response = await fetch(`/fetch_data?ticker=${ticker}&interval=${interval}`);
+    const response = await fetch(`/fetch_data?ticker=${ticker}&startdate=${startdate}
+    &enddate=${enddate}&&interval=${interval}`);
+    // http://127.0.0.1:5000/?ticker=AMZN&startdate=2023-01-01&enddate=2023-09-01&interval=1d
     const data = await response.json();
 
     updateChart(data);
@@ -16,6 +20,9 @@ function updateChart(data) {
 
     const labels = data.map(item => item.date);
     const prices = data.map(item => item.close);
+
+    console.log(data);
+
 
     if (window.stockChart) {
         window.stockChart.destroy();
@@ -47,6 +54,8 @@ function updateChart(data) {
 function updateTable(data) {
     const tableBody = document.querySelector('#stockTable tbody');
     tableBody.innerHTML = '';  // Clear previous data
+
+    console.log(data);
 
     data.forEach(item => {
         const row = document.createElement('tr');

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 from db_management import StockDataManager
 from AIStockTrader.ai_module import train_model, predict_future_prices
 from config import Config
@@ -76,7 +76,7 @@ def index():
         prediction = predicted_prices.flatten().tolist() if predicted_prices is not None else None
 
     # Generate the graph as a PNG image
-    # TODO: Replace with Chart.js
+    # TODO: Replace with Chart.js -> Scripts.js
     img = io.BytesIO()
     plt.figure(figsize=(10, 5))
     plt.plot(stock_data.index, stock_data['Close'], label='Close Price')
@@ -98,6 +98,25 @@ def index():
         graph_url=f"data:image/png;base64,{graph_url}",
         error=None  # Pass the error variable if needed
     )
+
+# Fetching data route, scripts.js intergration
+# Testing: "http://127.0.0.1:5000/fetch_data?ticker=AMZN&startdate=2023-01-01&enddate=2023-09-01&interval=1d"
+@app.route('/fetch_data', methods=['GET'])
+def fetch_data():
+    ticker = request.args.get("ticker", "AMZN")
+    startdate = request.args.get("startdate", "2023-01-01")
+    enddate = request.args.get("enddate", "2023-09-01")
+    interval = request.args.get("interval", '1d')
+
+    stock_data = stock_data_manager.fetch_data_from_db(ticker, interval, startdate, enddate)
+
+    print(stock_data)
+    df = stock_data.to_json() #Looked it up, and it seemed like it was okay.
+    # Return the data in JSON format
+    out = jsonify(df)
+    print(out)
+    return out
+
 
 if __name__ == "__main__":
     app.run(debug=True)
